@@ -1,6 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
 
   var scrollingPosition;
+  var keyframes = [
+    {
+      duration: "100%",
+      animation: [
+        {
+          "selector": "#title",
+          "translateY": -250
+        },
+        {
+          "selector": "#subtitle",
+          "translateY": -150
+        }
+      ]
+    }
+  ];
+
   var title = document.getElementById("title");
   var subtitle = document.getElementById("subtitle");
 
