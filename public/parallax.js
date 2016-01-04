@@ -17,6 +17,27 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       ]
     }
-  ]
+  ];
 
-})
+  var settings, lastPosition = null, newPosition, timer, delta, delay = 50;
+
+  function scrollingSpeed(settings) {
+    newPosition = window.scrollY;
+
+    if (lastPosition != null) { delta = newPosition - lastPosition; }
+
+    lastPosition = newPosition
+    window.clearTimeout(timer);
+
+    timer = window.setTimeout(function() {
+      lastPosition = null;
+      delta = 0;
+    }, delay);
+
+    return delta;
+  }
+
+  window.onscroll = function() {
+    var speed = scrollingSpeed();
+  }
+});
