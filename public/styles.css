@@ -1,5 +1,6 @@
-
 /* Main configuration */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
 
 html {
   width: 100vw;
@@ -33,4 +34,29 @@ body {
   top: 50%;
   transform: translate(-50%, -50%);
   opacity: 0.25;
+}
+
+#introduction {
+  font-family: 'Open Sans', sans-serif;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#introduction h1 {
+  font-weight: 700;
+  font-size: 42px;
+  letter-spacing: 5px;
+  margin-bottom: 0px;
+}
+
+#introduction h2 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1.5px;
 }
