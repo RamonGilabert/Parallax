@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
         {
           "id": "title",
           "translateY": [0, -250],
+          "scale": [1, 1.5],
           "opacity": [1, 0]
         },
         {
@@ -22,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
     },
     {
       duration: "300%",
+      animations: []
     }
   ];
 
@@ -44,10 +46,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
   window.onscroll = function() {
     if (document.body.scrollTop > keyframes[currentKeyframe].duration + previousDuration && keyframes.length - 1 != currentKeyframe) {
-      previousDuration += keyframes[currentKeyframe].duration
       currentKeyframe += 1;
+      previousDuration += keyframes[currentKeyframe].duration
     } else if (document.body.scrollTop < previousDuration && currentKeyframe > 0) {
       previousDuration -= keyframes[currentKeyframe].duration;
+      console.log(previousDuration);
       currentKeyframe -= 1;
     }
 
@@ -61,15 +64,17 @@ document.addEventListener("DOMContentLoaded", function() {
   || window.setTimeout(animationFunction, 1000 / 60);
 
   function animationFunction() {
-    var animation, translateX, translateY, opacity, element;
+    var animation, translateX, translateY, scale, opacity, element;
 
     for (var i = 0; i < keyframes[currentKeyframe].animations.length; i++) {
       animation = keyframes[currentKeyframe].animations[i];
+      translateX = setupAnimation(animation, "translateX");
       translateY = setupAnimation(animation, "translateY");
+      scale = setupAnimation(animation, "scale");
       opacity = setupAnimation(animation, "opacity");
-      console.log(translateY);
+
       element = document.getElementById(animation.id);
-      element.style.transform = "translateY(" + translateY + "px)";
+      element.style.transform = "translate(" + translateX + "px, " + translateY + "px) scale(" + scale + ")";
       element.style.opacity = opacity;
     }
   }
@@ -77,7 +82,17 @@ document.addEventListener("DOMContentLoaded", function() {
   function setupAnimation(animation, property) {
     var values = animation[property];
 
+    if (typeof(values) === "undefined") { return defaultValues(property); }
+
     return ((values[1] - values[0]) * (window.scrollY - previousDuration) / keyframes[currentKeyframe].duration) + values[0];
+  }
+
+  function defaultValues(property) {
+    if (property === "scale" || property === "opacity") {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   setupPixels();
