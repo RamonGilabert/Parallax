@@ -1,43 +1,26 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-  var keyframes = [
-    {
-      "wrapper" : "#introduction .animation",
-      "duration" : "100%",
-      "animations" :  [
-        {
-          "selector"    : "#title",
-          "translateY"  : -140,
-          "opacity"     : 0
-        },
-        {
-          "selector"    : "#subtitle",
-          "translateY"  : -110,
-          "opacity"     : 0
-        }
-      ]
-    }
-  ];
-
-  var settings, lastPosition = null, newPosition, timer, delta, delay = 50;
-
-  function scrollingSpeed(settings) {
-    newPosition = window.scrollY;
-
-    if (lastPosition != null) { delta = newPosition - lastPosition; }
-
-    lastPosition = newPosition
-    window.clearTimeout(timer);
-
-    timer = window.setTimeout(function() {
-      lastPosition = null;
-      delta = 0;
-    }, delay);
-
-    return delta;
-  }
+  var scrollingPosition;
+  var title = document.getElementById("title");
+  var subtitle = document.getElementById("subtitle");
 
   window.onscroll = function() {
-    var speed = scrollingSpeed();
+    scrollingPosition = window.scrollY;
+    window.requestAnimationFrame(animationFunction);
+  }
+
+  window.requestAnimationFrame = window.requestAnimationFrame
+  || window.webkitRequestAnimationFrame
+  || window.mozRequestAnimationFrame
+  || window.setTimeout(animationFunction, 1000 / 60);
+
+  function animationFunction() {
+    var slowScroll = scrollingPosition / 20;
+    var slowestScroll = scrollingPosition / 25;
+
+    title.style.transform = "translateY(-" + slowScroll + "px)";
+    subtitle.style.transform = "translateY(-" + slowestScroll + "px)";
+    title.style.opacity = (document.body.scrollHeight - scrollingPosition - 700) / document.body.scrollHeight;
+    subtitle.style.opacity = title.style.opacity;
   }
 });

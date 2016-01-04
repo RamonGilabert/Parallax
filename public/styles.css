@@ -4,7 +4,7 @@
 
 body {
   width: 100vw;
-  height: 200vh;
+  height: 750vh;
 }
 
 #background-image {
@@ -34,9 +34,9 @@ body {
 #introduction {
   font-family: 'Open Sans', sans-serif;
   position: absolute;
-  top: 45%;
+  top: 37.5%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   color: white;
   text-align: center;
   text-transform: uppercase;
