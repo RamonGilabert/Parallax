@@ -10,12 +10,12 @@ document.addEventListener("DOMContentLoaded", function() {
       animations: [
         {
           "id": "title",
-          "translateY": -250,
+          "translateY": [0, -250],
           "opacity": [1, 0]
         },
         {
           "id": "subtitle",
-          "translateY": -150,
+          "translateY": [0, -150],
           "opacity": [1, 0]
         }
       ]
@@ -67,35 +67,30 @@ document.addEventListener("DOMContentLoaded", function() {
       animation = keyframes[currentKeyframe].animations[i];
       translateY = setupAnimation(animation, "translateY");
       opacity = setupAnimation(animation, "opacity");
-
+      console.log(translateY);
       element = document.getElementById(animation.id);
+      element.style.transform = "translateY(" + translateY + "px)";
       element.style.opacity = opacity;
     }
-    // var slowScroll = scrollingPosition / 20;
-    // var slowestScroll = scrollingPosition / 25;
-    //
-    // title.style.transform = "translateY(-" + slowScroll + "px)";
-    // subtitle.style.transform = "translateY(-" + slowestScroll + "px)";
-    // title.style.opacity = (document.body.scrollHeight - scrollingPosition - 700) / document.body.scrollHeight;
-    // subtitle.style.opacity = title.style.opacity;
   }
 
   function setupAnimation(animation, property) {
-    var value = animation[property];
+    var values = animation[property];
 
-    if (value) {
-      value = easeInOutQuad(window.scrollY, value[0], (value[1]-value[0]), keyframes[currentKeyframe].duration);
-    } else {
-      value = 1;
-    }
-
-    return value;
+    return ((values[1] - values[0]) * (window.scrollY - previousDuration) / keyframes[currentKeyframe].duration) + values[0];
   }
-
-  easeInOutQuad = function (t, b, c, d) {
-      //sinusoadial in and out
-      return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
-    };
 
   setupPixels();
 });
+
+/* COMMENTS */
+
+// Perfectly valid code for a parallax without duration.
+
+// var slowScroll = scrollingPosition / 20;
+// var slowestScroll = scrollingPosition / 25;
+//
+// title.style.transform = "translateY(-" + slowScroll + "px)";
+// subtitle.style.transform = "translateY(-" + slowestScroll + "px)";
+// title.style.opacity = (document.body.scrollHeight - scrollingPosition - 700) / document.body.scrollHeight;
+// subtitle.style.opacity = title.style.opacity;
