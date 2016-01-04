@@ -7,31 +7,21 @@ document.addEventListener("DOMContentLoaded", function() {
   var keyframes = [
     {
       duration: "100%",
-      animation: [
+      animations: [
         {
-          "selector": "#title",
+          "id": "title",
           "translateY": -250,
-          "opacity": 0
+          "opacity": [1, 0]
         },
         {
-          "selector": "#subtitle",
+          "id": "subtitle",
           "translateY": -150,
-          "opacity": 0
+          "opacity": [1, 0]
         }
       ]
     },
     {
-      duration: "100%",
-      animation: [
-        {
-          "selector": "#title",
-          "translateY": -250
-        },
-        {
-          "selector": "#subtitle",
-          "translateY": -150
-        }
-      ]
+      duration: "300%",
     }
   ];
 
@@ -61,8 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
       currentKeyframe -= 1;
     }
 
-    console.log(currentKeyframe);
-
     scrollingPosition = window.scrollY;
     window.requestAnimationFrame(animationFunction);
   }
@@ -73,14 +61,41 @@ document.addEventListener("DOMContentLoaded", function() {
   || window.setTimeout(animationFunction, 1000 / 60);
 
   function animationFunction() {
-    var slowScroll = scrollingPosition / 20;
-    var slowestScroll = scrollingPosition / 25;
+    var animation, translateX, translateY, opacity, element;
 
-    title.style.transform = "translateY(-" + slowScroll + "px)";
-    subtitle.style.transform = "translateY(-" + slowestScroll + "px)";
-    title.style.opacity = (document.body.scrollHeight - scrollingPosition - 700) / document.body.scrollHeight;
-    subtitle.style.opacity = title.style.opacity;
+    for (var i = 0; i < keyframes[currentKeyframe].animations.length; i++) {
+      animation = keyframes[currentKeyframe].animations[i];
+      translateY = setupAnimation(animation, "translateY");
+      opacity = setupAnimation(animation, "opacity");
+
+      element = document.getElementById(animation.id);
+      element.style.opacity = opacity;
+    }
+    // var slowScroll = scrollingPosition / 20;
+    // var slowestScroll = scrollingPosition / 25;
+    //
+    // title.style.transform = "translateY(-" + slowScroll + "px)";
+    // subtitle.style.transform = "translateY(-" + slowestScroll + "px)";
+    // title.style.opacity = (document.body.scrollHeight - scrollingPosition - 700) / document.body.scrollHeight;
+    // subtitle.style.opacity = title.style.opacity;
   }
+
+  function setupAnimation(animation, property) {
+    var value = animation[property];
+
+    if (value) {
+      value = easeInOutQuad(window.scrollY, value[0], (value[1]-value[0]), keyframes[currentKeyframe].duration);
+    } else {
+      value = 1;
+    }
+
+    return value;
+  }
+
+  easeInOutQuad = function (t, b, c, d) {
+      //sinusoadial in and out
+      return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+    };
 
   setupPixels();
 });
