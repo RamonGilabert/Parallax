@@ -31,6 +31,8 @@ body {
   opacity: 0.25;
 }
 
+/* Introduction */
+
 #introduction {
   font-family: 'Open Sans', sans-serif;
   position: absolute;
@@ -54,4 +56,21 @@ body {
   font-weight: 400;
   font-size: 16px;
   letter-spacing: 1.5px;
+}
+
+/* Plot */
+
+#plot {
+  font-family: 'Open Sans', sans-serif;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 30%;
+  transform: translateX(-50%);
+  color: white;
+  text-align: center;
+}
+
+#plot h3 {
+  font-weight: 300;
 }
