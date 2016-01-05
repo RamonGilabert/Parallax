@@ -10,20 +10,39 @@ document.addEventListener("DOMContentLoaded", function() {
       animations: [
         {
           "id": "title",
-          "translateY": [0, -250],
-          "scale": [1, 1.5],
+          "translateY": [0, -150],
           "opacity": [1, 0]
         },
         {
           "id": "subtitle",
-          "translateY": [0, -150],
+          "translateY": [0, -50],
           "opacity": [1, 0]
         }
       ]
     },
     {
-      duration: "300%",
+      duration: "100%",
+      animations: [
+        {
+          "id": "explanation",
+          "translateY": ["0%", "-60%"]
+        }
+      ]
+    },
+    {
+      duration: "100%",
       animations: []
+    },
+    {
+      duration: "100%",
+      animations: [
+        {
+          "id": "explanation",
+          "translateY": ["-60%", "-75%"],
+          "scale": [1, 1.5],
+          "opacity": [1, 0]
+        }
+      ]
     }
   ];
 
@@ -50,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function() {
       previousDuration += keyframes[currentKeyframe].duration
     } else if (document.body.scrollTop < previousDuration && currentKeyframe > 0) {
       previousDuration -= keyframes[currentKeyframe].duration;
-      console.log(previousDuration);
       currentKeyframe -= 1;
     }
 
@@ -83,6 +101,12 @@ document.addEventListener("DOMContentLoaded", function() {
     var values = animation[property];
 
     if (typeof(values) === "undefined") { return defaultValues(property); }
+
+    if (typeof(values[0]) === "string" && typeof(values[1]) === "string") {
+      values[0] = convertToPixels(values[0]);
+      values[1] = convertToPixels(values[1]);
+      console.log(values[1]);
+    }
 
     return ((values[1] - values[0]) * (window.scrollY - previousDuration) / keyframes[currentKeyframe].duration) + values[0];
   }
