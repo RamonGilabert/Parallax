@@ -10,13 +10,12 @@ document.addEventListener("DOMContentLoaded", function() {
       animations: [
         {
           "id": "title",
-          "translateY": [0, -250],
-          "scale": [1, 1.5],
+          "translateY": [0, -150],
           "opacity": [1, 0]
         },
         {
           "id": "subtitle",
-          "translateY": [0, -150],
+          "translateY": [0, -50],
           "opacity": [1, 0]
         }
       ]
